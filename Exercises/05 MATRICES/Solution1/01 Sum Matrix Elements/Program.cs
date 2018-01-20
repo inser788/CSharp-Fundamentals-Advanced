@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01_Sum_Matrix_Elements
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] matrixSize = Console.ReadLine()
+                .Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            Console.WriteLine(matrixSize[0]);
+            Console.WriteLine(matrixSize[1]);
+            int[][] matrix = new int[matrixSize[0]][];
+            int sum = 0;
+            for (int rows = 0; rows < matrix.Length; rows++)
+            {
+                string[] input = Console.ReadLine()
+                    .Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                matrix[rows] = new int[input.Length];
+                for (int cols = 0; cols < matrix[rows].Length; cols++)
+                {
+                    matrix[rows][cols] = int.Parse(input[cols]);
+                    sum += matrix[rows][cols];
+                }
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}
