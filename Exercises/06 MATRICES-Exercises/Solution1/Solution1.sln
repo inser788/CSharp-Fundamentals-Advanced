@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01 Matrix of Palindromes", "01 Matrix of Palindromes\01 Matrix of Palindromes.csproj", "{217EBCED-2A96-487A-B1E0-5D9C894A9F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02 Diagonal Difference", "02 Diagonal Difference\02 Diagonal Difference.csproj", "{0EF3E8A0-9510-407F-83C8-C3E79EF0444F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03 Squares in Matrix", "03 Squares in Matrix\03 Squares in Matrix.csproj", "{9FEB4FDF-22CE-45E6-986F-2D5B76CF63D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04 Maximal Sum", "04 Maximal Sum\04 Maximal Sum.csproj", "{2C5AEBCB-4746-489A-95F4-F4FC86C63862}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{217EBCED-2A96-487A-B1E0-5D9C894A9F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217EBCED-2A96-487A-B1E0-5D9C894A9F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217EBCED-2A96-487A-B1E0-5D9C894A9F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217EBCED-2A96-487A-B1E0-5D9C894A9F79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF3E8A0-9510-407F-83C8-C3E79EF0444F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF3E8A0-9510-407F-83C8-C3E79EF0444F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF3E8A0-9510-407F-83C8-C3E79EF0444F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF3E8A0-9510-407F-83C8-C3E79EF0444F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FEB4FDF-22CE-45E6-986F-2D5B76CF63D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEB4FDF-22CE-45E6-986F-2D5B76CF63D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEB4FDF-22CE-45E6-986F-2D5B76CF63D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEB4FDF-22CE-45E6-986F-2D5B76CF63D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C5AEBCB-4746-489A-95F4-F4FC86C63862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5AEBCB-4746-489A-95F4-F4FC86C63862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5AEBCB-4746-489A-95F4-F4FC86C63862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5AEBCB-4746-489A-95F4-F4FC86C63862}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {464BEB15-1E86-403C-B1B0-D5B7DA7DD90C}
+	EndGlobalSection
+EndGlobal
