@@ -1,0 +1,160 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _06_Target_Practice
+{
+    class Program
+    {
+        private const char destroyedElement = ' ';
+        static void Main(string[] args)
+        {
+            var matrix = GetMatrix();
+            var matrixAfterImpact = GetMatrixAfterAttack(matrix);
+            PrintMatrix(CollapseMatrix(matrixAfterImpact));
+            
+        }
+        public static void PrintMatrix(char[][] matrix)
+        {
+            foreach (var row in matrix)
+            {
+                Console.WriteLine(string.Join("", row));
+            }
+        }
+        private static char[][] CollapseMatrix(char[][] matrix)
+        {
+            CollapseMatrixCols(matrix);
+            return RemoveEmptyRowsFromMatrix(matrix); // no tests with empty rows
+            //return matrix;
+        }
+
+        private static char[][] RemoveEmptyRowsFromMatrix(char[][] matrix)
+        {
+            var resultingMatrix = new List<char[]>();
+            for (int row = 0; row < matrix.Count(); row++)
+            {
+                if (matrix[row].Any(x => x != destroyedElement))
+                {
+                    resultingMatrix.Add(matrix[row]);
+                }
+            }
+            return resultingMatrix.ToArray();
+        }
+
+        private static void CollapseMatrixCols(char[][] matrix)
+        {
+            var rows = matrix.Count();
+            var cols = matrix[0].Count();
+            for (int col = 0; col < cols; col++)
+            {
+                var colRemainingElements = new List<char>();
+                for (int row = 0; row < rows; row++)
+                {
+                    if (matrix[row][col] != destroyedElement)
+                    {
+                        colRemainingElements.Add(matrix[row][col]);
+                    }
+                }
+                colRemainingElements.Reverse();
+                if (colRemainingElements.Count == rows) continue;
+
+                var index = 0;
+                for (int row = rows - 1; row >= 0; row--)
+                {
+                    if (index < colRemainingElements.Count)
+                    {
+                        matrix[row][col] = colRemainingElements[index++];
+                    }
+                    else
+                    {
+                        matrix[row][col] = destroyedElement;
+                    }
+                }
+            }
+        }
+
+        private static char[][] GetMatrixAfterAttack(char[][] matrix)
+        {
+            int[] parametersImpact = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            int rowAttack = parametersImpact[0];
+            int colAttack = parametersImpact[1];
+            int radiusAttack = parametersImpact[2];
+
+            for (int row = rowAttack - radiusAttack; row <= rowAttack + radiusAttack; row++)
+            {
+                for (int col = colAttack - radiusAttack; col <= colAttack + radiusAttack; col++)
+                {
+                    if (!isInMatrix(matrix, row, col)) continue;
+                    if (IsInShootingRange(matrix, rowAttack, colAttack, radiusAttack, row, col))
+                    {
+                        matrix[row][col] = destroyedElement;
+                    }
+
+                }
+            }
+
+            return matrix;
+
+        }
+
+        private static bool IsInShootingRange(char[][] matrix, int rowAttack, int colAttack, int radiusAttack, int row, int col)
+        {
+            var distance = Math.Sqrt(Math.Pow(rowAttack - row, 2) + Math.Pow(colAttack - col, 2));
+            return distance <= radiusAttack;
+        }
+
+        private static bool isInMatrix(char[][] matrix, int row, int col)
+        {
+            return row >= 0 && row < matrix.Length && col >= 0 && col < matrix[0].Length;
+        }
+
+        private static char[][] GetMatrix()
+        {
+            int[] sizeMatrix = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            int rowsCount = sizeMatrix[0];
+            int colsCount = sizeMatrix[1];
+            char[][] matrix=new char[rowsCount][];
+            string nameOfSnake = Console.ReadLine();
+            int indexLength = 0;
+            int indexRowOddOrEven = 1;
+            for (int row = rowsCount - 1; row >= 0; row--)
+            {
+                matrix[row]=new char[colsCount];
+                if (indexRowOddOrEven%2==1)
+                {
+                    for (int col = colsCount - 1; col >= 0; col--)
+                    {
+                        if (indexLength>nameOfSnake.Length-1)
+                        {
+                            indexLength = 0;
+                        }
+                        matrix[row][col] = nameOfSnake[indexLength++];
+                    }
+                    indexRowOddOrEven++;
+                }
+                else
+                {
+                    for (int col = 0; col < colsCount; col++)
+                    {
+                        if (indexLength > nameOfSnake.Length - 1)
+                        {
+                            indexLength = 0;
+                        }
+                        matrix[row][col] = nameOfSnake[indexLength++];
+                    }
+                    indexRowOddOrEven++;
+                }
+            }
+
+            return matrix;
+        }
+    }
+}
