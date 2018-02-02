@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FindEvensOrOdds
+namespace _04_Treasure_Map
 {
-    class Program
+    class TreasureMap
     {
         static void Main()
         {
-           
         }
     }
 }

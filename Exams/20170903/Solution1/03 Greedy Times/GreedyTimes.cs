@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FindEvensOrOdds
+namespace _03_Greedy_Times
 {
-    class Program
+    class GreedyTimes
     {
         static void Main()
         {
-           
         }
     }
 }
