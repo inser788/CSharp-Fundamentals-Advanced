@@ -71,7 +71,7 @@ class Program
                     string searchedDoctor = input[0] + " " + input[1];
                     if (doctorsPatients.ContainsKey(searchedDoctor))
                     {
-                        doctorsPatients[searchedDoctor].OrderBy(x=>x)
+                        doctorsPatients[searchedDoctor].OrderBy(x => x)
                             .ToList()
                             .ForEach(p=>Console.WriteLine(p));
                     }

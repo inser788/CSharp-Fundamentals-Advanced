@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _01_Regeh
 {
-    class Program
+    class Regeh
     {
         static void Main(string[] args)
         {
