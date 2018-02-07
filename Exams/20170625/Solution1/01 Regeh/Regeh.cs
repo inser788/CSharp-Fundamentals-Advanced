@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace _01_Regeh
 {
     class Regeh
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            string pattern = @"\[[\S]+?<(?<regeh>(\d+)REGEH(\d+))>[\S]+?\]";
-            string input = Console.ReadLine();
-            var list=new List<string>();
+            var input = Console.ReadLine();
+            var pattern = @"\[[A-Za-z]+<([0-9]+)REGEH([0-9]+)>[A-Za-z]+\]";
             var matches = Regex.Matches(input, pattern);
+            var allIndexes = new List<int>();
+
             foreach (Match match in matches)
             {
-                list.Add(match.ToString());
+                allIndexes.Add(int.Parse(match.Groups[1].Value));
+                allIndexes.Add(int.Parse(match.Groups[2].Value));
             }
+            var currentIndex = 0;
 
-            Console.WriteLine(string.Join("\n",list));
+            foreach (var index in allIndexes)
+            {
+                currentIndex += index;
+                int charIndex = currentIndex % input.Length;
+                Console.Write(input[charIndex]);
+            }
         }
     }
 }

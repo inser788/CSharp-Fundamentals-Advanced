@@ -8,31 +8,95 @@ namespace _02_Knight_Game
 {
     class KnightGame
     {
+        private static int result = 0;
+
+        private static char[][] chessBoard;
+
         static void Main()
         {
-            var knightRowsCoordinates=new List<int>();
-            var knightColsCoordinates = new List<int>();
+            int size = int.Parse(Console.ReadLine());
+            chessBoard = GetChessBoard(size);
 
-            int numberOfRows = int.Parse(Console.ReadLine());
-            char[][] chessBoard = GetChessBoard(numberOfRows);
-
-            int rowsCount = chessBoard.Length;
-            int colsCount = chessBoard[0].Length;
-            for (int row = 0; row < rowsCount; row++)
+            for (int i = 8; i >= 1; i--)
             {
-                for (int col = 0; col < colsCount; col++)
+                for (int row = 0; row < size; row++)
                 {
-                    char currentElement = chessBoard[row][col];
-                    if (currentElement=='K')
+                    for (int col = 0; col < size; col++)
                     {
-                        knightRowsCoordinates.Add(row);
-                        knightColsCoordinates.Add(col);
+                        if (chessBoard[row][col] == 'K')
+                        {
+                            CheckCurrentKnight(row, col, size, i);
+                        }
                     }
                 }
             }
+            Console.WriteLine(result);
+        }
 
-            
-
+        private static void CheckCurrentKnight(int row, int col, int size, int currentRound)
+        {
+            int removed = 0;
+            if (row-2>=0 && col-1>=0)
+            {
+                if (chessBoard[row-2][col-1]=='K')
+                {
+                    removed++;
+                }
+            }
+            if (row - 2 >= 0 && col + 1 < size)
+            {
+                if (chessBoard[row-2][col+1] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row - 1 >= 0 && col + 2 < size)
+            {
+                if (chessBoard[row - 1][col + 2] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row - 1 >= 0 && col -2 >= 0)
+            {
+                if (chessBoard[row - 1][col - 2] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row +1 < size && col + 2 < size)
+            {
+                if (chessBoard[row + 1][col + 2] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row + 1 < size && col - 2 >= 0)
+            {
+                if (chessBoard[row + 1][col - 2] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row + 2 < size && col + 1 < size)
+            {
+                if (chessBoard[row + 2][col + 1] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (row + 2 < size && col - 1 >= 0)
+            {
+                if (chessBoard[row + 2][col - 1] == 'K')
+                {
+                    removed++;
+                }
+            }
+            if (currentRound == removed)
+            {
+                result++;
+                chessBoard[row][col] = '0';
+            }
         }
 
 
