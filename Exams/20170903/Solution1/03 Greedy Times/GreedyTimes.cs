@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,9 @@ namespace _03_Greedy_Times
         {
             long goldCapacity = 0;
             var gemsCapacity = new Dictionary<string, long>();
+            var gemsNamesUpper=new List<string>();
             var cashCapacity = new Dictionary<string, long>();
+            var cashNamesUpper=new List<string>();
 
             long maxCashValue = long.Parse(Console.ReadLine());
             long allSumInbag = 0;
@@ -37,16 +40,11 @@ namespace _03_Greedy_Times
                 foreach (var item in valuableItemsNames.Zip(valuableItemsQuantities, Tuple.Create))
                 {
                     counter++;
-                    bool isItemUseful = item.Item1 == "Gold" ||
-                                        (item.Item1.EndsWith("gem") && item.Item1.Length >= 4) ||
-                                        (item.Item1.Length == 3 && item.Item1.All(a => char.IsLetter(a)));
-                    if (!isItemUseful)
-                    {
-                        continue;
-                    }
+                    
 
                     var key = item.Item1;
-                    if (key == "Gold" && goldCapacity >= gemsCapacity.Values.Sum())
+                    var upperName = item.Item1.ToUpperInvariant();
+                    if (upperName == "GOLD" && goldCapacity >= gemsCapacity.Values.Sum())
                     {
                         if ((allSumInbag + item.Item2) <= maxCashValue)
                         {
@@ -56,13 +54,14 @@ namespace _03_Greedy_Times
                     }
 
 
-                    else if (key.EndsWith("gem") && key.Length >= 4 )
+                    else if (upperName.EndsWith("GEM") && key.Length > 3 )
                     {
                         if ((allSumInbag + item.Item2) <= maxCashValue && goldCapacity >= gemsCapacity.Values.Sum()+ item.Item2)
                         {
-                            if (!gemsCapacity.ContainsKey(key))
+                            if (!gemsCapacity.ContainsKey(key)&&!gemsNamesUpper.Contains(upperName))
                             {
                                 gemsCapacity[key] = 0;
+                                gemsNamesUpper.Add(upperName);
                             }
 
                             gemsCapacity[key] += item.Item2;
@@ -70,13 +69,14 @@ namespace _03_Greedy_Times
                         }
                     }
 
-                    else if (key.Length == 3)
+                    else if (key.Length == 3&&key.All(a=>char.IsLetter(a)))
                     {
                         if ((allSumInbag + item.Item2) <= maxCashValue && gemsCapacity.Values.Sum() >= cashCapacity.Values.Sum()+ item.Item2)
                         {
-                            if (!cashCapacity.ContainsKey(key))
+                            if (!cashCapacity.ContainsKey(key)&&!cashNamesUpper.Contains(upperName))
                             {
                                 cashCapacity[key] = 0;
+                                cashNamesUpper.Add(upperName);
                             }
 
                             cashCapacity[key] += item.Item2;
