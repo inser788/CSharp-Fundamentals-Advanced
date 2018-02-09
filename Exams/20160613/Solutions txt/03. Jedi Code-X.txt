@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _03_Jedi_Code_X
+{
+    class JediCodeX
+    {
+        static void Main()
+        {
+            var listOfInputLines = new List<string>();
+            int numberOfLines = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < numberOfLines; i++)
+            {
+                listOfInputLines.Add(Console.ReadLine());
+            }
+
+            string patternForNames = Console.ReadLine();
+            int lengthName = patternForNames.Length;
+
+            string patternForMessages = Console.ReadLine();
+            int lengthMessage = patternForMessages.Length;
+
+            var listOfJedis = new List<string>();
+            var listOfMessages = new List<string>();
+
+            foreach (var line in listOfInputLines)
+            {
+                string patternMatchName = $@"{patternForNames}([a-zA-Z]{{{lengthName}}})(?![a-zA-Z])";
+                var matches = Regex.Matches(line, patternMatchName);
+                foreach (Match match in matches)
+                {
+                    string currentName = match.Groups[1].ToString();
+                    listOfJedis.Add(currentName);
+                }
+
+                string patternMatchMessage = $@"{patternForMessages}([a-zA-Z0-9]{{{lengthMessage}}})(?![a-zA-Z0-9])";
+                var matchesMsg = Regex.Matches(line, patternMatchMessage);
+                foreach (Match match in matchesMsg)
+                {
+                    string currentMsg = match.Groups[1].ToString();
+                    listOfMessages.Add(currentMsg);
+                }
+            }
+            int[] indexes = Console.ReadLine()
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+
+            int currentNameIndex = 0;
+            List<string> result = new List<string>();
+
+            foreach (int index in indexes)
+            {
+                if (index - 1 < listOfMessages.Count)
+                {
+                    result.Add($"{listOfJedis[currentNameIndex]} - {listOfMessages[index - 1]}");
+                }
+
+                currentNameIndex++;
+
+                if (currentNameIndex >= listOfJedis.Count)
+                {
+                    break;
+                }
+            }
+
+            Console.WriteLine(string.Join("\n", result));
+        }
+    }
+}
