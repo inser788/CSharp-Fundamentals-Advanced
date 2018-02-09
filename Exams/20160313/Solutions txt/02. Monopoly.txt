@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _02_Monopoly
+{
+    class Monopoly
+    {
+
+        static void Main()
+        {
+            int[] dimensionOfFiels = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            int rowsCount = dimensionOfFiels[0];
+            int colsCount = dimensionOfFiels[1];
+
+            char[][] matrix = new Char[rowsCount][];
+            for (int row = 0; row < rowsCount; row++)
+            {
+                matrix[row] = Console.ReadLine()
+                    .ToCharArray();
+            }
+
+            int startMoney = 50;
+            int turns = 0;
+            int totalHotels = 0;
+            int currentCol = 0;
+            for (int row = 0; row < rowsCount; row++)
+            {
+                for (int column = 0; column < colsCount; column++)
+                {
+                    if (row%2==0)
+                    {
+                        currentCol = column;
+                    }
+                    else
+                    {
+                        currentCol = colsCount - column - 1;
+                    }
+
+                    char currentSymbol = matrix[row][currentCol];
+
+                    switch (currentSymbol)
+                    {
+                        case 'H':
+                            totalHotels++;
+                            Console.WriteLine($"Bought a hotel for {startMoney}. Total hotels: {totalHotels}.");
+                            startMoney = 0;
+                            break;
+                        case 'J':
+                            Console.WriteLine($"Gone to jail at turn {turns}.");
+                            turns += 2;
+                            startMoney += (totalHotels * 20);
+                            break;
+                        case 'S':
+                           int moneySpent = Math.Min((row + 1) * (currentCol + 1), startMoney);
+                            Console.WriteLine($"Spent {moneySpent} money at the shop.");
+                            startMoney -= moneySpent;
+                            break;
+                    }
+
+                    turns++;
+                    startMoney += (totalHotels*10);
+                }
+            }
+            Console.WriteLine($"Turns {turns}");
+            Console.WriteLine($"Money {startMoney}");
+        }
+    }
+}
