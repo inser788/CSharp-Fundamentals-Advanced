@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace _03_Crypto_Blockchain
+{
+    class CryptoBlockchain
+    {
+        static void Main()
+        {
+            int numberOfLines = int.Parse(Console.ReadLine());
+
+            var builder =new StringBuilder();
+
+            for (int i = 0; i < numberOfLines; i++)
+            {
+                builder.Append(Console.ReadLine());
+            }
+
+            var unprintableCodes = new List<int>();
+            for (int i = 0; i < 32; i++)
+            {
+                unprintableCodes.Add(i);
+            }
+
+            unprintableCodes.Add(127);
+
+            string pattern = @"(\[(.*?)\])|(\{(.*?)\})";
+
+            var matches = Regex.Matches(builder.ToString(), pattern);
+
+            var finalResult = new List<char>();
+            foreach (Match match in matches)
+            {
+                var testMatchHasBadSymbol = match.ToString()
+                    .Select(a => (int)a)
+                    .ToArray();
+                bool isTrue = false;
+                for (int i = 0; i < testMatchHasBadSymbol.Length; i++)
+                {
+                    if (unprintableCodes.Any(a=>a==testMatchHasBadSymbol[i]))
+                    {
+                        isTrue = true;
+                        break;
+                    }
+                }
+
+                if (isTrue)
+                {
+                    continue;
+                }
+
+                if (match.ToString().StartsWith("[")&&match.ToString().EndsWith("]"))
+                {
+                    if (match.ToString().Contains("{")||match.ToString().Contains("}"))
+                    {
+                        continue;
+                    }
+                }
+                if (match.ToString().StartsWith("{") && match.ToString().EndsWith("}"))
+                {
+                    if (match.ToString().Contains("[") || match.ToString().Contains("]"))
+                    {
+                        continue;
+                    }
+                }
+                var allDigits = new string
+                    (match.ToString().Where(x => char.IsDigit(x)).ToArray());
+
+                if (allDigits.Length < 3 || allDigits.Length % 3 != 0)
+                {
+                    continue;
+                }
+                var tempResult = new List<string>();
+                var result = new List<char>();
+
+                int index = 0;
+                for (int i = 0; i < allDigits.Length / 3; i++)
+                {
+                    tempResult.Add(allDigits.Substring(index, 3));
+                    index += 3;
+                }
+
+                result = tempResult.Select(x => int.Parse(x))
+                    .Select(x => x - match.Length)
+                    .Select(x => (char)x)
+                    .ToList();
+                finalResult.AddRange(result);
+            }
+
+            Console.WriteLine(string.Join("", finalResult));
+        }
+    }
+}
