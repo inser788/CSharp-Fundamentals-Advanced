@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _03_Greedy_Times
 {
@@ -11,11 +8,9 @@ namespace _03_Greedy_Times
     {
         static void Main()
         {
-            long goldCapacity = 0;
+            var goldCapacity = new Dictionary<string, long>();
             var gemsCapacity = new Dictionary<string, long>();
-            var gemsNamesUpper=new List<string>();
             var cashCapacity = new Dictionary<string, long>();
-            var cashNamesUpper=new List<string>();
 
             long maxCashValue = long.Parse(Console.ReadLine());
             long allSumInbag = 0;
@@ -41,31 +36,32 @@ namespace _03_Greedy_Times
                 {
                     counter++;
                     
-
                     var key = item.Item1;
-                    var upperName = item.Item1.ToUpperInvariant();
-                    if (upperName == "GOLD" && goldCapacity >= gemsCapacity.Values.Sum())
+                    var upperName = item.Item1.ToUpper();
+                    if (upperName == "GOLD" && goldCapacity.Values.Sum() >= gemsCapacity.Values.Sum())
                     {
                         if ((allSumInbag + item.Item2) <= maxCashValue)
                         {
-                            goldCapacity += item.Item2;
-                            allSumInbag = goldCapacity + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
+                            if (!goldCapacity.ContainsKey(key))
+                            {
+                                goldCapacity[key] = 0;
+                            }
+                            goldCapacity[key] += item.Item2;
+                            allSumInbag = goldCapacity.Values.Sum() + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
                         }
                     }
 
-
                     else if (upperName.EndsWith("GEM") && key.Length > 3 )
                     {
-                        if ((allSumInbag + item.Item2) <= maxCashValue && goldCapacity >= gemsCapacity.Values.Sum()+ item.Item2)
+                        if ((allSumInbag + item.Item2) <= maxCashValue && goldCapacity.Values.Sum() >= gemsCapacity.Values.Sum()+ item.Item2)
                         {
-                            if (!gemsCapacity.ContainsKey(key)&&!gemsNamesUpper.Contains(upperName))
+                            if (!gemsCapacity.ContainsKey(key))
                             {
                                 gemsCapacity[key] = 0;
-                                gemsNamesUpper.Add(upperName);
                             }
 
                             gemsCapacity[key] += item.Item2;
-                            allSumInbag = goldCapacity + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
+                            allSumInbag = goldCapacity.Values.Sum() + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
                         }
                     }
 
@@ -73,25 +69,29 @@ namespace _03_Greedy_Times
                     {
                         if ((allSumInbag + item.Item2) <= maxCashValue && gemsCapacity.Values.Sum() >= cashCapacity.Values.Sum()+ item.Item2)
                         {
-                            if (!cashCapacity.ContainsKey(key)&&!cashNamesUpper.Contains(upperName))
+                            if (!cashCapacity.ContainsKey(key))
                             {
                                 cashCapacity[key] = 0;
-                                cashNamesUpper.Add(upperName);
                             }
 
                             cashCapacity[key] += item.Item2;
-                            allSumInbag = goldCapacity + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
+                            allSumInbag = goldCapacity.Values.Sum() + gemsCapacity.Values.Sum() + cashCapacity.Values.Sum();
                         }
                     }
                 }
             }
 
-            if (goldCapacity!=0)
+          var orderedGold=goldCapacity.OrderByDescending(x => x.Key)
+              .ThenBy(x => x.Value).ToDictionary(k => k.Key, v => v.Value);
+            if (orderedGold.Keys.Count!=0)
             {
-                Console.WriteLine($"<Gold> ${goldCapacity}");
-                Console.WriteLine($"##Gold - {goldCapacity}");
+            Console.WriteLine($"<Gold> ${orderedGold.Values.Sum()}");
+                foreach (var item in orderedGold)
+                {
+                    Console.WriteLine($"##{item.Key} - {item.Value}");
+                }
             }
-           
+            
             var orderedGems = gemsCapacity.OrderByDescending(x => x.Key)
                 .ThenBy(x => x.Value).ToDictionary(k => k.Key, v => v.Value);
             if (orderedGems.Keys.Count != 0)
